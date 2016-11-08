@@ -6,4 +6,4 @@
 `cd fillit-tests`  
 `./test /path/to/fillit size`
 
-to test with 10 randomly picked tetriminos, change 10 to whatever.
+to test with "size" randomly picked tetriminos, change size to whatever.
