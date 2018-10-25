@@ -6,7 +6,7 @@
 #    By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/04 12:40:14 by dabeloos          #+#    #+#              #
-#    Updated: 2018/10/19 15:43:18 by dabeloos         ###   ########.fr        #
+#    Updated: 2018/10/25 15:51:42 by dabeloos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,14 +80,15 @@ C_FILES		= ft_memset.c \
 			  ft_swap_int.c \
 			  ft_sort_int.c \
 			  ft_array_strdel.c \
-			  ft_index_of.c
+			  ft_index_of.c \
+			  get_next_line.c
 
 O_FILES		= $(C_FILES:.c=.o)
 
 FLAGS		= -c -Wall -Wextra -Werror
 
 $(NAME):
-			gcc $(FLAGS) $(C_FILES)
+			gcc $(FLAGS) $(C_FILES) -I includes
 			ar -rcs $(NAME) $(O_FILES)
 
 all:		$(NAME)

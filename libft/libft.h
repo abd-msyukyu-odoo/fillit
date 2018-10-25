@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 12:57:55 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/12 15:16:41 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/25 15:52:47 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define LIBFT_H
 # include <string.h>
 # include <sys/types.h>
+# include <limits.h>
+# ifndef OPEN_MAX
+#  define OPEN_NAX 256
+# endif
+# ifndef BUFF_SIZE
+#  define BUFF_SIZE 128
+# endif
 
 typedef struct		s_list
 {
@@ -91,4 +98,5 @@ void				ft_swap_int(long *a, long *b);
 void				ft_sort_int(long tab[], size_t s, size_t e);
 void				ft_array_strdel(char ***arr);
 ssize_t				ft_index_of(const char *src, int c);
+int					get_next_line(const int fd, char **line);
 #endif

@@ -6,12 +6,13 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/25 15:23:01 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/25 15:29:51 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
+# include "get_next_line.h"
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
