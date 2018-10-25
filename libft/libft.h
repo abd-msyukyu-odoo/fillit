@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <string.h>
+# include <sys/types.h>
 
 typedef struct		s_list
 {
@@ -89,4 +90,5 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_swap_int(long *a, long *b);
 void				ft_sort_int(long tab[], size_t s, size_t e);
 void				ft_array_strdel(char ***arr);
+ssize_t				ft_index_of(const char *src, int c);
 #endif

@@ -79,7 +79,8 @@ C_FILES		= ft_memset.c \
 			  ft_lstmap.c \
 			  ft_swap_int.c \
 			  ft_sort_int.c \
-			  ft_array_strdel.c
+			  ft_array_strdel.c \
+			  ft_index_of.c
 
 O_FILES		= $(C_FILES:.c=.o)
 
