@@ -6,18 +6,18 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/26 18:55:02 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/26 19:00:57 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-char		is_valid_char(char c)
+static char		is_valid_char(char c)
 {
 	return (c == '.' || c == '#');
 }
 
-char		check_tetro_read(char *tetro_read)
+static char		check_tetro_read(char *tetro_read)
 {
 	size_t		i;
 	int			count_hash;
@@ -46,7 +46,7 @@ char		check_tetro_read(char *tetro_read)
 	return (1);
 }
 
-TETRO		*read_tetro(int fd, TETRO *tetro_box, int index)
+static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 {
 	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
 	ssize_t			nread;
@@ -74,7 +74,7 @@ TETRO		*read_tetro(int fd, TETRO *tetro_box, int index)
 	return (tetro_box);
 }
 
-TETRO		*read_file(char *file)
+TETRO			*read_file(char *file)
 {
 	TETRO			*tetro_box;
 
