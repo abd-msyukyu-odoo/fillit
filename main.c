@@ -6,7 +6,7 @@
 int main()
 {
 	char **tab;
-	char *str = "....$##..$.#..$.#..$";
+	char *str = "...#$##..$.#..$.#..$";
 	TETRO *tetro;
 	int i = -1;
 
