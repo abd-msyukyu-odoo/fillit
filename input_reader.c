@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 15:04:46 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:28:35 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char		is_valid_char(char c)
 	return (c == '.' || c == '#');
 }
 
+#include <stdio.h>
 static char		check_tetro_read(char *tetro_read)
 {
 	size_t		i;
@@ -35,6 +36,7 @@ static char		check_tetro_read(char *tetro_read)
 			if (index_line != TETRO_SIZE)
 				return (0);
 			index_line = 0;
+			continue ;
 		}
 		else if(!is_valid_char(tetro_read[i]))
 			return (0);
@@ -52,8 +54,8 @@ static TETRO	**read_tetro(int fd, TETRO **tetro_box, int index)
 	ssize_t			nread;
 	TETRO			*current;
 
-	nread = read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE + 1);
-	if (nread != (TETRO_SIZE + 1) * TETRO_SIZE + 1)
+	nread = read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE);
+	if (nread != (TETRO_SIZE + 1) * TETRO_SIZE)
 		return (NULL);
 	tetro_read[nread] = '\0';
 	if (!check_tetro_read(tetro_read))

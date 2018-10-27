@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 14:46:35 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:09:37 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ void					init_tetro(TETRO *piece);
 void					init_coord(COORD *point);
 void					init_check(CHECK *checkin);
 TETRO					**read_file(char *file);
+
+void					display_tetro(TETRO *tetro);
 
 #endif

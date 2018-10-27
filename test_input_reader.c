@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:52:02 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 15:06:07 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:32:01 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ void	display_tetro(TETRO *tetro)
 	}
 	i = -1;
 	while (++i < TETRO_SIZE)
-		tetro_array[tetro->pattern[i].x][tetro->pattern[i].y] = '%';
+		tetro_array[tetro->pattern[i].y][tetro->pattern[i].x] = '%';
 	i = -1;
 	while (++i < TETRO_SIZE)
-		printf("%s\n", tetro_array[i]);
-	printf("\n");
+	{
+		ft_putstr(tetro_array[i]);
+		ft_putchar('\n');
+	}
+	ft_putchar('\n');
 	ft_array_strdel(&tetro_array);
 }
 
@@ -43,7 +46,9 @@ int		main(int argc, char **argv)
 	if (argc == 2)
 	{
 		list_tetro = read_file(argv[1]);
-		while (list_tetro)
+		if (list_tetro == NULL)
+			return (0);
+		while (*list_tetro)
 		{
 			display_tetro(*list_tetro);
 			++list_tetro;
