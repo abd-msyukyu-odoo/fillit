@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 15:28:35 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:06:52 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static char		is_valid_char(char c)
 	return (c == '.' || c == '#');
 }
 
-#include <stdio.h>
 static char		check_tetro_read(char *tetro_read)
 {
 	size_t		i;
@@ -48,6 +47,22 @@ static char		check_tetro_read(char *tetro_read)
 	return (1);
 }
 
+static void		simplify_tetro(TETRO *tetro)
+{
+	int			i;
+
+	tetro->footprint.x -= tetro->origin.x;
+	tetro->footprint.y -= tetro->origin.y;
+	i = -1;
+	while (++i < TETRO_SIZE)
+	{
+		tetro->pattern[i].x -= tetro->origin.x;
+		tetro->pattern[i].y -= tetro->origin.y;
+	}
+	tetro->origin.x = 0;
+	tetro->origin.y = 0;
+}
+
 static TETRO	**read_tetro(int fd, TETRO **tetro_box, int index)
 {
 	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
@@ -63,6 +78,7 @@ static TETRO	**read_tetro(int fd, TETRO **tetro_box, int index)
 	current = flood_fill(ft_strsplit(tetro_read, '\n'));
 	if (!current)
 		return (NULL);
+	simplify_tetro(current);
 	nread = read(fd, tetro_read, 1);
 	if (nread == 0)
 	{
