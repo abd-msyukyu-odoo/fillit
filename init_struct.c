@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 17:21:07 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/27 14:25:47 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:31:58 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	init_coord(COORD *point)
 	point->y = 0;
 }
 
-void	init_check(CHECK *checkin)
+void	init_check(CHECK *check)
 {
-	checkin->x = 0;
-	checkin->y = 0;
-	checkin->index = 0;
+	check->x = 0;
+	check->y = 0;
+	check->index = 0;
 }

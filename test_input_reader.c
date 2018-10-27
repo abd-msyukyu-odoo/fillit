@@ -6,12 +6,21 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:52:02 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 15:32:01 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 16:48:55 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
+
+void	display_coord(COORD *coord)
+{
+	ft_putstr("{ ");
+	ft_putnbr(coord->x);
+	ft_putstr(", ");
+	ft_putnbr(coord->y);
+	ft_putstr(" }");
+	ft_putchar('\n');
+}
 
 void	display_tetro(TETRO *tetro)
 {
@@ -24,18 +33,21 @@ void	display_tetro(TETRO *tetro)
 	while (++i < TETRO_SIZE)
 	{
 		tetro_array[i] = ft_strnew(TETRO_SIZE);
-		tetro_array[i] = ft_memset(tetro_array[i], ' ', TETRO_SIZE);
+		tetro_array[i] = ft_memset(tetro_array[i], '.', TETRO_SIZE);
 	}
 	i = -1;
 	while (++i < TETRO_SIZE)
-		tetro_array[tetro->pattern[i].y][tetro->pattern[i].x] = '%';
+		tetro_array[tetro->pattern[i].y][tetro->pattern[i].x] = 'A' + i;
 	i = -1;
 	while (++i < TETRO_SIZE)
 	{
 		ft_putstr(tetro_array[i]);
 		ft_putchar('\n');
 	}
-	ft_putchar('\n');
+	ft_putstr("origin : ");
+	display_coord(&tetro->origin);
+	ft_putstr("footprint : ");
+	display_coord(&tetro->footprint);
 	ft_array_strdel(&tetro_array);
 }
 
