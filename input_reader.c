@@ -17,6 +17,12 @@ static char		is_valid_char(char c)
 	return (c == '.' || c == '#');
 }
 
+static TETRO	*del_tetro(TETRO *tetro)
+{
+	free(tetro);
+	return (NULL);
+}
+
 static char		check_tetro_read(char *tetro_read)
 {
 	size_t		i;
@@ -65,11 +71,11 @@ static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 	if (nread == 0)
 		tetro_box = (TETRO *)ft_memalloc(sizeof(TETRO) * (index + 2));
 	else if (nread != 1 || tetro_read[0] != '\n')
-		return (NULL);
+		return (del_tetro(current));
 	else
 		tetro_box = read_tetro(fd, tetro_box, index + 1);
 	if (tetro_box == NULL)
-		return (NULL);
+		return (del_tetro(current));
 	tetro_box[index] = current;
 	return (tetro_box);
 }
