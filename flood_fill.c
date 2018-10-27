@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 13:17:00 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/26 17:35:51 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:43:53 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ TETRO		*flood_fill(char **tetro_in)
 	TETRO	*piece;
 	
 	piece = (TETRO*)malloc(sizeof(TETRO));
-	//index.x = 0;
-	//index.y = 0;
+	init_tetro(piece);
 	index.index = -1;
 	if (!tetro_in)
 		return (NULL);

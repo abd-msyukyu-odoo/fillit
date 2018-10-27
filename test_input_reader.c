@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 13:52:02 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 14:17:44 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:06:07 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ void	display_tetro(TETRO *tetro)
 
 int		main(int argc, char **argv)
 {
-	TETRO	*list_tetro;
+	TETRO	**list_tetro;
 
 	if (argc == 2)
 	{
 		list_tetro = read_file(argv[1]);
 		while (list_tetro)
 		{
-			display_tetro(list_tetro);
+			display_tetro(*list_tetro);
 			++list_tetro;
 		}
 	}

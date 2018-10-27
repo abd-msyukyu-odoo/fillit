@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 14:25:14 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 15:04:46 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 static char		is_valid_char(char c)
 {
 	return (c == '.' || c == '#');
-}
-
-static TETRO	*del_tetro(TETRO *tetro)
-{
-	free(tetro);
-	return (NULL);
 }
 
 static char		check_tetro_read(char *tetro_read)
@@ -52,7 +46,7 @@ static char		check_tetro_read(char *tetro_read)
 	return (1);
 }
 
-static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
+static TETRO	**read_tetro(int fd, TETRO **tetro_box, int index)
 {
 	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
 	ssize_t			nread;
@@ -69,20 +63,29 @@ static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 		return (NULL);
 	nread = read(fd, tetro_read, 1);
 	if (nread == 0)
-		tetro_box = (TETRO *)ft_memalloc(sizeof(TETRO) * (index + 2));
+	{
+		tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2));
+		tetro_box[index + 1] = NULL;
+	}
 	else if (nread != 1 || tetro_read[0] != '\n')
-		return (del_tetro(current));
+	{
+		free(current);
+		return (NULL);
+	}
 	else
 		tetro_box = read_tetro(fd, tetro_box, index + 1);
 	if (tetro_box == NULL)
-		return (del_tetro(current));
-	tetro_box[index] = *current;
+	{
+		free(current);
+		return (NULL);
+	}
+	tetro_box[index] = current;
 	return (tetro_box);
 }
 
-TETRO			*read_file(char *file)
+TETRO			**read_file(char *file)
 {
-	TETRO			*tetro_box;
+	TETRO			**tetro_box;
 	int				fd;
 
 	tetro_box = NULL;
