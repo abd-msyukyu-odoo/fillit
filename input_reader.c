@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/26 19:00:57 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:25:14 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 {
 	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
 	ssize_t			nread;
-	TETRO			current;
+	TETRO			*current;
 
 	nread = read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE + 1);
 	if (nread != (TETRO_SIZE + 1) * TETRO_SIZE + 1)
@@ -64,7 +64,7 @@ static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 	tetro_read[nread] = '\0';
 	if (!check_tetro_read(tetro_read))
 		return (NULL);
-	current = flood_fill(ft_strsplit(tetro_read), '\n');
+	current = flood_fill(ft_strsplit(tetro_read, '\n'));
 	if (!current)
 		return (NULL);
 	nread = read(fd, tetro_read, 1);
@@ -76,14 +76,16 @@ static TETRO	*read_tetro(int fd, TETRO *tetro_box, int index)
 		tetro_box = read_tetro(fd, tetro_box, index + 1);
 	if (tetro_box == NULL)
 		return (del_tetro(current));
-	tetro_box[index] = current;
+	tetro_box[index] = *current;
 	return (tetro_box);
 }
 
 TETRO			*read_file(char *file)
 {
 	TETRO			*tetro_box;
+	int				fd;
 
+	tetro_box = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (NULL);

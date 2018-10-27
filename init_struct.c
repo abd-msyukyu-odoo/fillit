@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 17:21:07 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/26 17:27:08 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/27 14:25:47 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_tetro(TETRO *piece)
 {
 	init_coord(&piece->origin);
-	init_coord(&piece->foot_size);
+	init_coord(&piece->footprint);
 }
 
 void	init_coord(COORD *point)
