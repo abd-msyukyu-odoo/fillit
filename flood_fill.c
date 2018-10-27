@@ -6,69 +6,55 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 13:17:00 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/27 17:42:36 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/27 18:02:13 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-
-static void	localize(char **tetro, CHECK *index, TETRO *piece)
+static void	localize(char **tetro, TETRO *piece, int x, int y)
 {
-	static int	index2= -1;
+	static int	index = 0;
 
-	tetro[index->y][index->x] = '.';
-	if (index->x > piece->footprint.x)
-		piece->footprint.x = index->x;
-	if (index->x < piece->origin.x)
-		piece->origin.x = index->x;
-	if (index->y > piece->footprint.y)
-		piece->footprint.y = index->y;
-	if (index->y < piece->origin.y)
-		piece->origin.y = index->y;
-	piece->pattern[(++index2) % 4].x = index->x;
-	piece->pattern[(index2) % 4].y = index->y;
+	tetro[y][x] = '.';
+	if (x > piece->footprint.x)
+		piece->footprint.x = x;
+	if (x < piece->origin.x)
+		piece->origin.x = x;
+	if (y > piece->footprint.y)
+		piece->footprint.y = y;
+	if (y < piece->origin.y)
+		piece->origin.y = y;
+	piece->pattern[index].x = x;
+	piece->pattern[index].y = y;
+	++index;
+	if (index == 4)
+		index = 0;
 }
 
-CHECK *ft_check_of(int x, int y, int index)
-{
-	CHECK *ret;
-
-	ret = (CHECK *)malloc(sizeof(CHECK));
-	ret->x = x;
-	ret->y = y;
-	ret->index = index;
-	return (ret);
-}
-
-static void	flooder(char **tetro, CHECK index, TETRO *piece)
+static void	flooder(char **tetro, TETRO *piece, int x, int y)
 {
 	int		inc;
 	int		i;
-	CHECK	*tmp;
 
 	i = -1;
 	inc = 1;
 	while (++i <= 1)
 	{
-		if (index.y < TETRO_SIZE && index.x < TETRO_SIZE &&
-				index.x > -1 && index.y > -1)
+		if (y < TETRO_SIZE && x < TETRO_SIZE &&
+				x > -1 && y > -1)
 		{
-			if ((index.y - inc) > -1 && (index.y - inc) < TETRO_SIZE &&
-					tetro[index.y - inc][index.x] == '#')
+			if ((y - inc) > -1 && (y - inc) < TETRO_SIZE &&
+					tetro[y - inc][x] == '#')
 			{
-				localize(tetro, (tmp = ft_check_of(index.x,
-					index.y - inc, (index.index += 1))),piece);
-				flooder(tetro, *tmp, piece);
-				free(tmp);
+				localize(tetro, piece, x, y - inc);
+				flooder(tetro, piece, x, y - inc);
 			}
-			if ((index.x - inc) > -1 && (index.x - inc) < TETRO_SIZE &&
-					tetro[index.y][index.x - inc] == '#')
+			if ((x - inc) > -1 && (x - inc) < TETRO_SIZE &&
+					tetro[y][x - inc] == '#')
 			{
-				localize(tetro, (tmp = ft_check_of(index.x - inc,
-						index.y, (index.index += 1))),piece);
-				flooder(tetro, *tmp, piece);
-				free(tmp);
+				localize(tetro, piece, x - inc, y);
+				flooder(tetro, piece, x - inc, y);
 			}
 		}
 		inc = -1;
