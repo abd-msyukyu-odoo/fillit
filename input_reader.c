@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 17:12:39 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/29 18:54:27 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char		check_tetro_read(char *tetro_read)
 		if (++index_line > TETRO_SIZE)
 			return (0);
 	}
-	return (1);
+	return (count_hash == TETRO_SIZE);
 }
 
 static void		simplify_tetro(TETRO *tetro)
