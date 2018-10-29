@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 15:08:57 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 17:18:10 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,12 @@ int			fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 
 int			erase_pattern(char **board, TETRO piece, int index, COORD point)
 {
-	int i;
-
-	i = 0;
 	point.x -= piece.footprint.x;
 	point.y -= piece.footprint.y;
-	while (i < TETRO_SIZE)
-	{
-		board[piece.pattern[i].y + point.y][piece.pattern[i].x + point.x] = '.';
-		i++;
-	}
-	return (i);
+	while (--index > -1)
+		board[piece.pattern[index].y + point.y]
+			[piece.pattern[index].x + point.x] = '.';
+	return (index);
 }
 
 static int	fillit(BOX *box, MAP *map, int index, int try)

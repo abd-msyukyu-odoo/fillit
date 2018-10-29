@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 14:57:43 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 17:12:39 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,19 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 	TETRO			*current;
 
 	if (read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE) !=
-		(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
-		!(current = flood_fill(ft_strsplit(tetro_read, '\n'))))
+			(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
+			!(current = flood_fill(ft_strsplit(tetro_read, '\n'))))
 		return (NULL);
 	simplify_tetro(current);
 	if (!(nread = read(fd, tetro_read, 1)))
 	{
-		if (!(box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2))))
-			return (NULL);
+		box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2));
 		box->tetro_box[index + 1] = NULL;
 		box->nb_tetro = index + 1;
 	}
-	else if (!(nread = (nread != 1 || tetro_read[0] != '\n')))
+	else if ((nread == 1 && tetro_read[0] == '\n') || (box = NULL))
 		box = read_tetro(fd, box, index + 1);
-	if (nread || !box->tetro_box)
+	if (!box)
 	{
 		free(current);
 		return (NULL);
@@ -93,6 +92,7 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 BOX				*read_file(char *file)
 {
 	BOX			*box;
+	BOX			*tmp;
 	int			fd;
 
 	box = (BOX*)malloc(sizeof(BOX));
@@ -103,8 +103,11 @@ BOX				*read_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	if (!(box = read_tetro(fd, box, 0)))
+	if (!(tmp = read_tetro(fd, box, 0)))
+	{
+		free(box);
 		return (NULL);
+	}
 	close(fd);
 	return (box);
 }
