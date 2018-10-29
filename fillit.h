@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 14:51:00 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 17:40:59 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ typedef struct			s_2d_coordinates
 
 typedef struct			s_tetromino
 {
-	t_2d_coordinates	origin;
-	t_2d_coordinates	footprint;
-	t_2d_coordinates	pattern[TETRO_SIZE];
+	COORD				origin;
+	COORD				footprint;
+	COORD				pattern[TETRO_SIZE];
 }						t_tetromino;
 
 typedef struct			s_map
@@ -54,6 +54,7 @@ typedef struct			s_tetro_box
 	TETRO				**tetro_box;
 	int					nb_tetro;
 }						t_tetro_box;
+
 void					init_check(CHECK *index);
 void					init_tetro(TETRO *piece);
 void					init_coord(COORD *point);

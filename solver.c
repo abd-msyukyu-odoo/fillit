@@ -6,14 +6,13 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 17:18:10 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/29 17:39:57 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
-int			fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
+static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 {
 	int		i;
 	COORD	pos;
@@ -39,7 +38,7 @@ int			fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 	return (1);
 }
 
-int			erase_pattern(char **board, TETRO piece, int index, COORD point)
+static int	erase_pattern(char **board, TETRO piece, int index, COORD point)
 {
 	point.x -= piece.footprint.x;
 	point.y -= piece.footprint.y;
