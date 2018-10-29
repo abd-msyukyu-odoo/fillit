@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 17:39:57 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/29 18:40:35 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ int			main(int arc, char **argv)
 		return (0);
 	if (!(box = read_file(argv[1])))
 	{
-		ft_putendl("invalid tetrominos");
+		ft_putendl("error");
 		return (0);
 	}
 	if (!(fillit(box, &map, 0, 1)))
 	{
-		ft_putendl("backtrack error");
+		ft_putendl("error");
 		return (0);
 	}
 	while (i < map.l_map)
