@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 18:40:47 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/28 17:57:06 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 13:41:05 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	localize(char **tetro, TETRO *piece, int x, int y)
 	tetro[y][x] = 'x';
 	if (x > piece->footprint.x)
 		piece->footprint.x = x;
-	if (x < piece->origin.x)
+	else if (x < piece->origin.x)
 		piece->origin.x = x;
 	if (y > piece->footprint.y)
 		piece->footprint.y = y;
-	if (y < piece->origin.y)
+	else if (y < piece->origin.y)
 		piece->origin.y = y;
 }
 
@@ -29,22 +29,23 @@ static void	flooder(char **tetro, TETRO *piece, int x, int y)
 {
 	int		inc;
 	int		i;
+	COORD	pos;
 
 	i = -1;
 	inc = 1;
 	while (++i <= 1)
 	{
-		if ((y - inc) > -1 && (y - inc) < TETRO_SIZE &&
-				tetro[y - inc][x] == '#')
+		pos.y = y - inc;
+		if (pos.y > -1 && pos.y < TETRO_SIZE && tetro[pos.y][x] == '#')
 		{
-			localize(tetro, piece, x, y - inc);
-			flooder(tetro, piece, x, y - inc);
+			localize(tetro, piece, x, pos.y);
+			flooder(tetro, piece, x, pos.y);
 		}
-		if ((x - inc) > -1 && (x - inc) < TETRO_SIZE &&
-				tetro[y][x - inc] == '#')
+		pos.x = x - inc;
+		if (pos.x > -1 && pos.x < TETRO_SIZE && tetro[y][pos.x] == '#')
 		{
-			localize(tetro, piece, x - inc, y);
-			flooder(tetro, piece, x - inc, y);
+			localize(tetro, piece, pos.x, y);
+			flooder(tetro, piece, pos.x, y);
 		}
 		inc = -1;
 	}
@@ -86,8 +87,7 @@ TETRO		*flood_fill(char **tetro_in)
 	piece = (TETRO *)malloc(sizeof(TETRO));
 	init_tetro(piece);
 	init_check(&index);
-	index.index = -1;
-	if (!tetro_in)
+	if (!tetro_in || !piece)
 		return (NULL);
 	while (index.y < TETRO_SIZE)
 	{

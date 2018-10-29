@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/28 23:28:58 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 14:57:43 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,16 @@ static char		check_tetro_read(char *tetro_read)
 	i = -1;
 	count_hash = 0;
 	index_line = 0;
-	while (tetro_read[++i] != '\0')
+	while (++i < (TETRO_SIZE + 1) * TETRO_SIZE)
 	{
 		if ((i + 1) % (TETRO_SIZE + 1) == 0)
 		{
-			if (tetro_read[i] != '\n')
-				return (0);
-			if (index_line != TETRO_SIZE)
+			if (tetro_read[i] != '\n' || index_line != TETRO_SIZE)
 				return (0);
 			index_line = 0;
 			continue ;
 		}
-		else if(!is_valid_char(tetro_read[i]))
+		else if (!is_valid_char(tetro_read[i]))
 			return (0);
 		if (tetro_read[i] == '#' && ++count_hash > TETRO_SIZE)
 			return (0);
@@ -59,56 +57,47 @@ static void		simplify_tetro(TETRO *tetro)
 		tetro->pattern[i].x -= tetro->origin.x;
 		tetro->pattern[i].y -= tetro->origin.y;
 	}
-	tetro->origin.x = 0;
-	tetro->origin.y = 0;
+	tetro->origin.x = tetro->footprint.x;
+	tetro->origin.y = tetro->footprint.y;
 }
 
-static BOX	*read_tetro(int fd, BOX *box, int index)
+static BOX		*read_tetro(int fd, BOX *box, int index)
 {
-	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
+	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE];
 	ssize_t			nread;
 	TETRO			*current;
 
-	nread = read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE);
-	if (nread != (TETRO_SIZE + 1) * TETRO_SIZE)
-		return (NULL);
-	tetro_read[nread] = '\0';
-	if (!check_tetro_read(tetro_read))
-		return (NULL);
-	current = flood_fill(ft_strsplit(tetro_read, '\n'));
-	if (!current)
+	if (read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE) !=
+		(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
+		!(current = flood_fill(ft_strsplit(tetro_read, '\n'))))
 		return (NULL);
 	simplify_tetro(current);
 	if (!(nread = read(fd, tetro_read, 1)))
 	{
-		if(!(box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2))))
-			return (box);
+		if (!(box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2))))
+			return (NULL);
 		box->tetro_box[index + 1] = NULL;
+		box->nb_tetro = index + 1;
 	}
-	else if (nread != 1 || tetro_read[0] != '\n')
-	{
-		free(current);
-		return (NULL);
-	}
-	else
+	else if (!(nread = (nread != 1 || tetro_read[0] != '\n')))
 		box = read_tetro(fd, box, index + 1);
-	if (box->tetro_box == NULL)
+	if (nread || !box->tetro_box)
 	{
 		free(current);
 		return (NULL);
 	}
 	box->tetro_box[index] = current;
-	if (index > box->nb_tetro)
-		box->nb_tetro = index;
 	return (box);
 }
 
-BOX			*read_file(char *file)
+BOX				*read_file(char *file)
 {
 	BOX			*box;
 	int			fd;
 
 	box = (BOX*)malloc(sizeof(BOX));
+	if (!box)
+		return (NULL);
 	box->tetro_box = NULL;
 	box->nb_tetro = 0;
 	fd = open(file, O_RDONLY);

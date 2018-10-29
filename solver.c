@@ -6,67 +6,35 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 01:24:06 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 15:08:57 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
-int			init_map(MAP *map, int *try, BOX *box)
-{
-	int i;
-	static int		result = 0;
-
-	i = 0;
-	if (!map->size)
-		map->size = box->nb_tetro * TETRO_SIZE;
-	while (*try || (result = map->l_map * map->l_map) < map->size)
-	{
-		map->l_map += 1;
-		*try = 0;
-	}
-	if (result > map->size)
-		map->size = result;
-	if (!(map->board = (char**)malloc(sizeof(char*) * map->l_map)))
-		return (-1);
-	while (i < map->l_map)
-	{
-		map->board[i] = (char*)malloc(sizeof(char) * map->l_map + 1);
-		ft_memset((void*)map->board[i], '.', map->l_map + 1);
-		map->board[i++][map->l_map] = 0;
-	}
-	return(1);
-}
+#include <stdio.h>
 
 int			fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 {
-	int i;
+	int		i;
+	COORD	pos;
 
 	i = 0;
 	point.x -= piece->footprint.x;
 	point.y -= piece->footprint.y;
 	while (i < TETRO_SIZE)
 	{
-		if (/*(piece->pattern[i].y + point.y) < map->l_map && (piece->pattern[i].x + point.x) < map->l_map && 
-		*/map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] == '.')
-		{
-			map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] = 'A' + index;
-			i++;
-		}
+		pos.y = piece->pattern[i].y + point.y;
+		pos.x = piece->pattern[i].x + point.x;
+		if (map->board[pos.y][pos.x] == '.')
+			map->board[pos.y][pos.x] = 'A' + index;
 		else
 		{
-			i = 0;
-			while (i < TETRO_SIZE)
-			{
-				if (/*(piece->pattern[i].y + point.y) < map->l_map && (piece->pattern[i].x + point.x) < map->l_map && 
-				*/map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] == 'A' + index)
-				{
-					map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] = '.';
-				}
-				i++;
-			}
+			while (--i > -1)
+				map->board[piece->pattern[i].y + point.y]
+					[piece->pattern[i].x + point.x] = '.';
 			return (0);
 		}
+		i++;
 	}
 	return (1);
 }
@@ -92,9 +60,8 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 
 	if (index == box->nb_tetro)
 		return (1);
-	if (try)
-		if (init_map(map, &try, box) == -1)
-			return (0);
+	if (try && init_map(map, &try, box) == -1)
+		return (0);
 	point.x = box->tetro_box[index]->footprint.x;
 	point.y = box->tetro_box[index]->footprint.y;
 	while (point.y < map->l_map)
@@ -104,9 +71,7 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 			if (fill_pattern(map, box->tetro_box[index], index, point))
 			{
 				if (fillit(box, map, index + 1, 0))
-				{
 					return (1);
-				}
 				erase_pattern(map->board, *box->tetro_box[index], index, point);
 			}
 			point.x += 1;
@@ -114,9 +79,7 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 		point.x = box->tetro_box[index]->footprint.x;
 		point.y += 1;
 	}
-	if (!index)
-		return (fillit(box, map, 0, 1));
-	return (0);
+	return ((!index) ? fillit(box, map, 0, 1) : 0);
 }
 
 int			main(int arc, char **argv)
@@ -126,7 +89,7 @@ int			main(int arc, char **argv)
 	int		i;
 
 	i = 0;
-	map.size = 0;
+	map.board = NULL;
 	map.l_map = 0;
 	if (arc != 2)
 		return (0);
@@ -138,7 +101,7 @@ int			main(int arc, char **argv)
 	if (!(fillit(box, &map, 0, 1)))
 	{
 		ft_putendl("backtrack error");
-		return(0);
+		return (0);
 	}
 	while (i < map.l_map)
 	{

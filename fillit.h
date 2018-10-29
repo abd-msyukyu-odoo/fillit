@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 00:10:02 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/29 14:51:00 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct			s_tetromino
 typedef struct			s_map
 {
 	char				**board;
-	int					size;
 	int					l_map;
 }						t_map;
 
@@ -55,12 +54,11 @@ typedef struct			s_tetro_box
 	TETRO				**tetro_box;
 	int					nb_tetro;
 }						t_tetro_box;
-
 void					init_check(CHECK *index);
 void					init_tetro(TETRO *piece);
 void					init_coord(COORD *point);
 TETRO					*flood_fill(char **tetro_in);
 BOX						*read_file(char *file);
-MAP						i_map();
+int						init_map(MAP *map, int *try, BOX *box);
 
 #endif
