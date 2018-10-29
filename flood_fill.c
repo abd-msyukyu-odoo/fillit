@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 13:17:00 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/27 18:07:41 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/29 11:38:11 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,47 +63,50 @@ static void	flooder(char **tetro, TETRO *piece, int x, int y)
 
 static int	check_tetro(char **tetro)
 {
-	CHECK index;
+	int x;
+	int y;
 
-	init_check(&index);
-	while (tetro[index.y])
+	x = 0;
+	y = 0;
+	while (tetro[y])
 	{
-		while (tetro[index.y][index.x])
+		while (tetro[y][x])
 		{
-			if (tetro[index.y][index.x] == '#')
+			if (tetro[y][x] == '#')
 				return (0);
-			index.x += 1;
+			x += 1;
 		}
-		index.x = 0;
-		index.y += 1;
+		x = 0;
+		y += 1;
 	}
 	return (1);
 }
 
 TETRO		*flood_fill(char **tetro_in)
 {
-	CHECK	index;
 	TETRO	*piece;
+	int		x;
+	int		y;
 
 	piece = (TETRO *)malloc(sizeof(TETRO));
 	init_tetro(piece);
-	init_check(&index);
-	index.index = -1;
+	x = 0;
+	y = 0;
 	if (!tetro_in)
 		return (NULL);
-	while (index.y < TETRO_SIZE)
+	while (y < TETRO_SIZE)
 	{
-		while (tetro_in[index.y][index.x] && tetro_in[index.y][index.x] != '#')
-			index.x += 1;
-		if (tetro_in[index.y][index.x] == '#')
+		while (tetro_in[y][x] && tetro_in[y][x] != '#')
+			x += 1;
+		if (tetro_in[y][x] == '#')
 		{
 			piece->origin.x = TETRO_SIZE - 1;
 			piece->origin.y = TETRO_SIZE - 1;
-			flooder(tetro_in, index, piece);
+			flooder(tetro_in, piece, x, y);
 			return ((check_tetro(tetro_in)) ? piece : NULL);
 		}
-		index.x = 0;
-		index.y += 1;
+		x = 0;
+		y += 1;
 	}
 	return (NULL);
 }
