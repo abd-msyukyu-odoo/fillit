@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/27 17:42:57 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/29 16:45:42 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char		check_tetro_read(char *tetro_read)
 	i = -1;
 	count_hash = 0;
 	index_line = 0;
-	while (tetro_read[++i] != '\0')
+	while (++i < (TETRO_SIZE + 1) * TETRO_SIZE)
 	{
 		if ((i + 1) % (TETRO_SIZE + 1) == 0)
 		{
@@ -65,33 +65,24 @@ static void		simplify_tetro(TETRO *tetro)
 
 static TETRO	**read_tetro(int fd, TETRO **tetro_box, int index)
 {
-	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE + 1];
+	char			tetro_read[(TETRO_SIZE + 1) * TETRO_SIZE];
 	ssize_t			nread;
 	TETRO			*current;
 
-	nread = read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE);
-	if (nread != (TETRO_SIZE + 1) * TETRO_SIZE)
-		return (NULL);
-	tetro_read[nread] = '\0';
-	if (!check_tetro_read(tetro_read))
-		return (NULL);
-	current = flood_fill(ft_strsplit(tetro_read, '\n'));
-	if (!current)
+	if (read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE) !=
+			(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
+			!(current = flood_fill(ft_strsplit(tetro_read, '\n'))))
 		return (NULL);
 	simplify_tetro(current);
-	nread = read(fd, tetro_read, 1);
-	if (nread == 0)
+	if (!(nread = read(fd, tetro_read, 1)))
 	{
 		tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2));
 		tetro_box[index + 1] = NULL;
 	}
-	else if (nread != 1 || tetro_read[0] != '\n')
-	{
-		free(current);
-		return (NULL);
-	}
-	else
+	else if (!(nread != 1 || tetro_read[0] != '\n'))
 		tetro_box = read_tetro(fd, tetro_box, index + 1);
+	else
+		tetro_box = NULL;
 	if (tetro_box == NULL)
 	{
 		free(current);
