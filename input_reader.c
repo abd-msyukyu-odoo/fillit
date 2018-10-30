@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 18:54:27 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/10/30 12:54:34 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static void		simplify_tetro(TETRO *tetro)
 		tetro->pattern[i].x -= tetro->origin.x;
 		tetro->pattern[i].y -= tetro->origin.y;
 	}
-	tetro->origin.x = tetro->footprint.x;
-	tetro->origin.y = tetro->footprint.y;
+	tetro->origin.x = 0;
+	tetro->origin.y = 0;
 }
 
 static BOX		*read_tetro(int fd, BOX *box, int index)
