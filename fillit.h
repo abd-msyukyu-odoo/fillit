@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/29 14:51:00 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/10/31 19:44:15 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ typedef struct			s_map
 {
 	char				**board;
 	int					l_map;
+	int					size;
+	int					*space;
+	int					*rest;
+	int					tot;
 }						t_map;
 
 typedef struct			s_check_input
