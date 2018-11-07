@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/11/01 15:29:45 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/11/02 12:57:01 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		init_map(MAP *map, int *try, BOX *box)
 	//printf ("size %d\n",map->l_map * map->l_map);
 	if (map->space)
 		free(map->space);
+	map->diff = map->size - (box->nb_tetro * TETRO_SIZE);
 	if (!(map->space = (int*)malloc(sizeof(int) * map->l_map)))
 		return (-1);
 	if (!(map->board = (char**)malloc(sizeof(char*) * (map->l_map + 1))))
@@ -69,5 +70,6 @@ int		init_map(MAP *map, int *try, BOX *box)
 		map->board[i][map->l_map] = 0;
 		map->space[i++] = 0;
 	}
+	//map->i_next = 0;
 	return (1);
 }

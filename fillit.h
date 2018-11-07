@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/31 19:44:15 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/11/02 12:39:27 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct			s_map
 	int					*space;
 	int					*rest;
 	int					tot;
+	int					diff;
+	int					i_next;
 }						t_map;
 
 typedef struct			s_check_input
