@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/10/30 12:54:34 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/11/15 20:53:44 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 	TETRO			*current;
 
 	if (read(fd, tetro_read, (TETRO_SIZE + 1) * TETRO_SIZE) !=
-			(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
-			!(current = flood_fill(ft_strsplit(tetro_read, '\n'))))
+	(TETRO_SIZE + 1) * TETRO_SIZE || !check_tetro_read(tetro_read) ||
+	!(current = flood_fill(ft_strsplit(tetro_read, '\n'))) || index == 26)
 		return (NULL);
 	simplify_tetro(current);
 	if (!(nread = read(fd, tetro_read, 1)))

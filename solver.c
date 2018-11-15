@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 19:16:28 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/11/15 20:47:48 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,18 @@
 static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 {
 	int		i;
-	COORD	pos;
 
 	i = 0;
 	point.x -= piece->footprint.x;
 	point.y -= piece->footprint.y;
+	while (i < TETRO_SIZE || (i = 0))
+		if (map->board[piece->pattern[i].y + point.y]
+				[piece->pattern[i].x + point.x] != '.' || !++i)
+		return (0);
 	while (i < TETRO_SIZE)
 	{
-		pos.y = piece->pattern[i].y + point.y;
-		pos.x = piece->pattern[i].x + point.x;
-		if (map->board[pos.y][pos.x] == '.')
-			map->board[pos.y][pos.x] = 'A' + index;
-		else
-		{
-			while (--i > -1)
-				map->board[piece->pattern[i].y + point.y]
-					[piece->pattern[i].x + point.x] = '.';
-			return (0);
-		}
+		map->board[piece->pattern[i].y + point.y]
+		[piece->pattern[i].x + point.x] = 'A' + index;
 		i++;
 	}
 	return (1);
@@ -89,7 +83,10 @@ int			main(int arc, char **argv)
 	map.board = NULL;
 	map.l_map = 0;
 	if (arc != 2)
+	{
+		ft_putendl("usage: ./fillit filename");
 		return (0);
+	}
 	if (!(box = read_file(argv[1])))
 	{
 		ft_putendl("error");
