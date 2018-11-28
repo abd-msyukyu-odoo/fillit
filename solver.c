@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/11/15 20:47:48 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/11/28 13:42:30 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 	while (i < TETRO_SIZE || (i = 0))
 		if (map->board[piece->pattern[i].y + point.y]
 				[piece->pattern[i].x + point.x] != '.' || !++i)
-		return (0);
+			return (0);
 	while (i < TETRO_SIZE)
 	{
 		map->board[piece->pattern[i].y + point.y]
@@ -87,12 +87,7 @@ int			main(int arc, char **argv)
 		ft_putendl("usage: ./fillit filename");
 		return (0);
 	}
-	if (!(box = read_file(argv[1])))
-	{
-		ft_putendl("error");
-		return (0);
-	}
-	if (!(fillit(box, &map, 0, 1)))
+	if (!(box = read_file(argv[1])) || !(fillit(box, &map, 0, 1)))
 	{
 		ft_putendl("error");
 		return (0);
