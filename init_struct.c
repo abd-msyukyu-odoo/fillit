@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 19:05:59 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/05 13:08:16 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int		init_map(MAP *map, int *try, BOX *box)
 
 	i = 0;
 	size = box->nb_tetro * TETRO_SIZE;
+	init_coord(&(map->start));
+	map->dead_size = 0;
 	while ((*try && (*try)--) || map->l_map * map->l_map < size)
 		map->l_map += 1;
 	if (map->board)

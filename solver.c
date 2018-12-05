@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/11/28 13:42:30 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/05 13:02:20 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 	return ((!index) ? fillit(box, map, 0, 1) : 0);
 }
 
-int			main(int arc, char **argv)
+int			main(int argc, char **argv)
 {
 	BOX		*box;
 	MAP		map;
@@ -82,7 +82,7 @@ int			main(int arc, char **argv)
 	i = 0;
 	map.board = NULL;
 	map.l_map = 0;
-	if (arc != 2)
+	if (argc != 2)
 	{
 		ft_putendl("usage: ./fillit filename");
 		return (0);
