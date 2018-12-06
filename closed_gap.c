@@ -6,13 +6,13 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:42:09 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/05 14:31:08 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 10:53:46 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void		fill_gaps(MAP *map)
+void		check_gaps(MAP *map)
 {
 	COORD			p;
 	int				dead_size;

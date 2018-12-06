@@ -6,13 +6,25 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/05 13:02:20 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 10:53:04 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
+COORD		get_start_coord(MAP *map, TETRO *piece)
+{
+	COORD	start;
+
+	start.x = (map->start.x > piece->footprint.x) ? map->start.x :
+		piece->footprint.x;
+	start.y = (map->start.y > piece->footprint.y) ? map->start.y :
+		piece->footprint.y;
+	return (start);
+}
+
+static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
+		int nb_tetro)
 {
 	int		i;
 
@@ -23,6 +35,10 @@ static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 		if (map->board[piece->pattern[i].y + point.y]
 				[piece->pattern[i].x + point.x] != '.' || !++i)
 			return (0);
+	fill_gaps(map);
+	if (map->dead_size > map->l_map * map->l_map - nb_tetro * TETRO_SIZE)
+		return (0);
+	init_coord(&(map->start));
 	while (i < TETRO_SIZE)
 	{
 		map->board[piece->pattern[i].y + point.y]
@@ -53,8 +69,7 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 		return (1);
 	if (try && init_map(map, &try, box) == -1)
 		return (0);
-	point.x = box->tetro_box[index]->footprint.x;
-	point.y = box->tetro_box[index]->footprint.y;
+	point = get_start_coord(map, box->tetro_box[index]);
 	while (point.y < map->l_map)
 	{
 		while (point.x < map->l_map)
