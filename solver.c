@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 12:01:22 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 14:05:31 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 				[piece->pattern[i].x + point.x] != '.' || !++i)
 			return (0);
 	map->dead_size = 0;
+	init_coord(&(map->start));
 	check_gaps(map);
 	if (map->dead_size > map->max_dead_size)
 		return (0);
-	init_coord(&(map->start));
 	while (i < TETRO_SIZE)
 	{
 		map->board[piece->pattern[i].y + point.y]
