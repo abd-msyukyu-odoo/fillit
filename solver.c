@@ -6,13 +6,13 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 10:53:04 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 11:00:02 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-COORD		get_start_coord(MAP *map, TETRO *piece)
+static COORD	get_start_coord(MAP *map, TETRO *piece)
 {
 	COORD	start;
 
@@ -23,7 +23,7 @@ COORD		get_start_coord(MAP *map, TETRO *piece)
 	return (start);
 }
 
-static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
+static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
 		int nb_tetro)
 {
 	int		i;
@@ -35,7 +35,7 @@ static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
 		if (map->board[piece->pattern[i].y + point.y]
 				[piece->pattern[i].x + point.x] != '.' || !++i)
 			return (0);
-	fill_gaps(map);
+	check_gaps(map);
 	if (map->dead_size > map->l_map * map->l_map - nb_tetro * TETRO_SIZE)
 		return (0);
 	init_coord(&(map->start));
@@ -48,7 +48,7 @@ static int	fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
 	return (1);
 }
 
-static int	erase_pattern(char **board, TETRO piece, COORD point)
+static int		erase_pattern(char **board, TETRO piece, COORD point)
 {
 	int index;
 
@@ -61,7 +61,7 @@ static int	erase_pattern(char **board, TETRO piece, COORD point)
 	return (index);
 }
 
-static int	fillit(BOX *box, MAP *map, int index, int try)
+static int		fillit(BOX *box, MAP *map, int index, int try)
 {
 	COORD			point;
 
@@ -74,7 +74,8 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 	{
 		while (point.x < map->l_map)
 		{
-			if (fill_pattern(map, box->tetro_box[index], index, point))
+			if (fill_pattern(map, box->tetro_box[index], index, point,
+						box->nb_tetro))
 			{
 				if (fillit(box, map, index + 1, 0))
 					return (1);
@@ -88,7 +89,7 @@ static int	fillit(BOX *box, MAP *map, int index, int try)
 	return ((!index) ? fillit(box, map, 0, 1) : 0);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	BOX		*box;
 	MAP		map;
