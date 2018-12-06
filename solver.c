@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 14:05:31 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 15:28:34 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,11 @@ int				main(int argc, char **argv)
 	if (!(box = read_file(argv[1])) || !(fillit(box, &map, 0, 1)))
 	{
 		ft_putendl("error");
+		mega_free(box, &map);
 		return (0);
 	}
 	while (i < map.l_map)
-	{
-		ft_putendl(map.board[i]);
-		i++;
-	}
+		ft_putendl(map.board[i++]);
+	mega_free(box, &map);
 	return (0);
 }

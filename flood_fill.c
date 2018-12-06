@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 18:40:47 by rhunders          #+#    #+#             */
-/*   Updated: 2018/10/29 13:41:05 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/06 15:08:07 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ static int	check_tetro(char **tetro, TETRO *piece)
 	init_check(&index);
 	while (tetro[index.y])
 	{
-		while (tetro[index.y][index.x])
+		while (tetro[index.y][index.x] || (index.x = 0))
 		{
 			if (tetro[index.y][index.x] == '#')
 			{
 				free(piece);
+				ft_array_strdel(&tetro);
 				return (0);
 			}
 			else if (tetro[index.y][index.x] == 'x')
@@ -73,9 +74,9 @@ static int	check_tetro(char **tetro, TETRO *piece)
 			}
 			index.x += 1;
 		}
-		index.x = 0;
 		index.y += 1;
 	}
+	ft_array_strdel(&tetro);
 	return (1);
 }
 
@@ -87,21 +88,22 @@ TETRO		*flood_fill(char **tetro_in)
 	piece = (TETRO *)malloc(sizeof(TETRO));
 	init_tetro(piece);
 	init_check(&index);
-	if (!tetro_in || !piece)
-		return (NULL);
-	while (index.y < TETRO_SIZE)
-	{
-		while (tetro_in[index.y][index.x] && tetro_in[index.y][index.x] != '#')
-			index.x += 1;
-		if (tetro_in[index.y][index.x] == '#')
+	if (piece && tetro_in)
+		while (index.y < TETRO_SIZE)
 		{
-			piece->origin.x = TETRO_SIZE - 1;
-			piece->origin.y = TETRO_SIZE - 1;
-			flooder(tetro_in, piece, index.x, index.y);
-			return ((check_tetro(tetro_in, piece)) ? piece : NULL);
+			while (tetro_in[index.y][index.x] &&
+				tetro_in[index.y][index.x] != '#')
+				index.x += 1;
+			if (tetro_in[index.y][index.x] == '#')
+			{
+				piece->origin.x = TETRO_SIZE - 1;
+				piece->origin.y = TETRO_SIZE - 1;
+				flooder(tetro_in, piece, index.x, index.y);
+				return ((check_tetro(tetro_in, piece)) ? piece : NULL);
+			}
+			index.x = 0;
+			index.y += 1;
 		}
-		index.x = 0;
-		index.y += 1;
-	}
+	ft_array_strdel(&tetro_in);
 	return (NULL);
 }

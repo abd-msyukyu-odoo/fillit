@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/06 11:53:50 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 15:17:23 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ TETRO					*flood_fill(char **tetro_in);
 BOX						*read_file(char *file);
 int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
+void					mega_free(BOX *box, MAP *map);
 
 #endif

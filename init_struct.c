@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 11:59:12 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 15:21:07 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,20 @@ int		init_map(MAP *map, int *try, BOX *box)
 		map->board[i++][map->l_map] = 0;
 	}
 	return (1);
+}
+
+void	mega_free(BOX *box, MAP *map)
+{
+	int i;
+
+	i = 0;
+	if (box && box->tetro_box)
+	{
+		while (box->tetro_box[i])
+			free(box->tetro_box[i++]);
+		free(box->tetro_box);
+		free(box);
+	}
+	if (map)
+		ft_array_strdel(&map->board);
 }
