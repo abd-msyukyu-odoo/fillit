@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 11:44:51 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 12:01:22 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 	return (start);
 }
 
-static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
-		int nb_tetro)
+static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 {
 	int		i;
 
@@ -37,7 +36,7 @@ static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point,
 			return (0);
 	map->dead_size = 0;
 	check_gaps(map);
-	if (map->dead_size > map->l_map * map->l_map - nb_tetro * TETRO_SIZE)
+	if (map->dead_size > map->max_dead_size)
 		return (0);
 	init_coord(&(map->start));
 	while (i < TETRO_SIZE)
@@ -75,8 +74,7 @@ static int		fillit(BOX *box, MAP *map, int index, int try)
 	{
 		while (point.x < map->l_map)
 		{
-			if (fill_pattern(map, box->tetro_box[index], index, point,
-						box->nb_tetro))
+			if (fill_pattern(map, box->tetro_box[index], index, point))
 			{
 				if (fillit(box, map, index + 1, 0))
 					return (1);

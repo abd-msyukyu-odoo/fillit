@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/05 13:08:16 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/06 11:59:12 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int		init_map(MAP *map, int *try, BOX *box)
 	i = 0;
 	size = box->nb_tetro * TETRO_SIZE;
 	init_coord(&(map->start));
-	map->dead_size = 0;
 	while ((*try && (*try)--) || map->l_map * map->l_map < size)
 		map->l_map += 1;
+	map->max_dead_size = map->l_map * map->l_map - size;
 	if (map->board)
 		ft_array_strdel(&map->board);
 	if (!(map->board = (char**)malloc(sizeof(char*) * (map->l_map + 1))))
 		return (-1);
 	map->board[map->l_map] = NULL;
-	while (i < map->l_map)
+	while (i < map->l_map || (map->dead_size = 0))
 	{
 		if (!(map->board[i] = (char*)malloc(sizeof(char) * (map->l_map + 1))))
 		{
