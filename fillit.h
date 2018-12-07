@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 15:21:24 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:50:03 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ BOX						*read_file(char *file);
 int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
 void					mega_free(BOX *box, MAP *map);
+int						fillit(BOX *box, MAP *map, int index, int try);
 
 #endif

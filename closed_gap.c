@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:42:09 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 15:11:37 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:09:15 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,18 @@ static int	fill_gap(MAP *map, int x, int y)
 	return (dead_size);
 }
 
-#include <stdio.h>
-
-void		clean_map(MAP *map, COORD point)
+static void	clean_map(MAP *map, COORD p)
 {
-	while (point.y < map->l_map)
+	while (p.y < map->l_map)
 	{
-		while (point.x < map->l_map)
+		while (p.x < map->l_map)
 		{
-			if (map->board[point.y][point.x] == ':')
-				map->board[point.y][point.x] = '.';
-			point.x++;
+			if (map->board[p.y][p.x] == ':')
+				map->board[p.y][p.x] = '.';
+			p.x++;
 		}
-		point.x = 0;
-		point.y++;
+		p.x = 0;
+		p.y++;
 	}
 }
 
@@ -51,11 +49,11 @@ void		check_gaps(MAP *map)
 	COORD			p;
 	int				dead_size;
 
-	init_coord(&p);
-	while (p.y < map->l_map)
+	p.y = -1;
+	while (++(p.y) < map->l_map)
 	{
-		p.x = 0;
-		while (p.x < map->l_map)
+		p.x = -1;
+		while (++(p.x) < map->l_map)
 		{
 			if (map->board[p.y][p.x] == '.')
 			{
@@ -71,8 +69,6 @@ void		check_gaps(MAP *map)
 			}
 			else if (map->board[p.y][p.x] == ':')
 				map->board[p.y][p.x] = '.';
-			p.x++;
 		}
-		p.y++;
 	}
 }

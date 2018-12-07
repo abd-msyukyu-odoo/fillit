@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 15:20:30 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 17:07:02 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	init_check(CHECK *check)
 	check->index = 0;
 }
 
-#include <stdio.h>
-#include <time.h>
 int		init_map(MAP *map, int *try, BOX *box)
 {
 	int		i;
@@ -52,10 +50,6 @@ int		init_map(MAP *map, int *try, BOX *box)
 	while ((*try && (*try)--) || map->l_map * map->l_map < size)
 		map->l_map += 1;
 	map->max_dead_size = map->l_map * map->l_map - size;
-	//printf("max dead_size %d\n", map->max_dead_size);
-	//clock_t time = clock();
-	//while (time + CLOCKS_PER_SEC * 2 > clock())
-	//	;
 	if (map->board)
 		ft_array_strdel(&map->board);
 	if (!(map->board = (char**)malloc(sizeof(char*) * (map->l_map + 1))))
@@ -86,14 +80,6 @@ void	mega_free(BOX *box, MAP *map)
 		free(box->tetro_box);
 		free(box);
 	}
-	//(void)map;
 	if (map && map->board)
-	{
-		//while (i < map->l_map)
-		//	free(map->board[i++]);
-		//free(map->board);
-		map->board[map->l_map] = NULL;
 		ft_array_strdel(&map->board);
-	}
-	//	ft_array_strdel(&map->board);
 }
