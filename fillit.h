@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 13:22:33 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 15:21:24 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct			s_tetromino
 	COORD				footprint;
 	COORD				pattern[TETRO_SIZE];
 	int					id;
+	int					placed;
 }						t_tetromino;
 
 typedef struct			s_map

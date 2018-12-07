@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 14:28:18 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 15:32:56 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,25 @@ static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 	while (++i < TETRO_SIZE || !(i = -1))
 		if (map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] != '.')
 			return (0);
+	piece->origin = point;
+	piece->placed = 1;
 	while (++i < TETRO_SIZE)
 		map->board[piece->pattern[i].y + point.y]
 			[piece->pattern[i].x + point.x] = 'A' + index;
 	return (1);
 }
 
-static int		erase_pattern(char **board, TETRO piece, COORD point)
+static int		erase_pattern(char **board, TETRO *piece, COORD point)
 {
 	int i;
 
 	i = -1;
-	point.x -= piece.footprint.x;
-	point.y -= piece.footprint.y;
+	point.x -= piece->footprint.x;
+	point.y -= piece->footprint.y;
+	piece->placed = 0;
 	while (++i < TETRO_SIZE)
-		board[piece.pattern[i].y + point.y]
-			[piece.pattern[i].x + point.x] = '.';
+		board[piece->pattern[i].y + point.y]
+			[piece->pattern[i].x + point.x] = '.';
 	return (1);
 }
 
@@ -78,7 +81,7 @@ static int		fillit(BOX *box, MAP *map, int index, int try)
 				if (init_check_gaps(map))
 					if (fillit(box, map, index + 1, 0))
 						return (1);
-				erase_pattern(map->board, *box->tetro_box[index], point);
+				erase_pattern(map->board, box->tetro_box[index], point);
 			}
 			point.x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:42:09 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 13:21:28 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 15:11:37 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		check_gaps(MAP *map)
 		{
 			if (map->board[p.y][p.x] == '.')
 			{
-				if ((dead_size = fill_gap(map, p.x, p.y) % 4))
+				if ((dead_size = fill_gap(map, p.x, p.y) % TETRO_SIZE))
 				{
 					map->dead_size += dead_size;
 					if (map->dead_size > map->max_dead_size)

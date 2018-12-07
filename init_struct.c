@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 14:36:14 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 15:20:30 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	init_tetro(TETRO *piece)
 		return ;
 	init_coord(&piece->origin);
 	init_coord(&piece->footprint);
+	piece->id = 0;
+	piece->placed = 0;
 }
 
 void	init_coord(COORD *point)
@@ -90,6 +92,7 @@ void	mega_free(BOX *box, MAP *map)
 		//while (i < map->l_map)
 		//	free(map->board[i++]);
 		//free(map->board);
+		map->board[map->l_map] = NULL;
 		ft_array_strdel(&map->board);
 	}
 	//	ft_array_strdel(&map->board);
