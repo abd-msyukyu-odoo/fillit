@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 17:50:03 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/07 18:20:32 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct			s_tetromino
 	COORD				origin;
 	COORD				footprint;
 	COORD				pattern[TETRO_SIZE];
+	TETRO				**brothers;
 	int					id;
 	int					placed;
 }						t_tetromino;

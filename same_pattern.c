@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   same_pattern.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 17:28:08 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 18:06:59 by dabeloos         ###   ########.fr       */
+/*   Created: 2018/12/07 18:15:52 by dabeloos          #+#    #+#             */
+/*   Updated: 2018/12/07 18:22:49 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int		main(int argc, char **argv)
+void			list_brothers(BOX *box)
 {
-	int			i;
-	MAP			map;
-	t_tetro_box	*box;
+	int		i;
+	TETRO	*current;
 
-	map.board = NULL;
-	map.l_map = 0;
-	if (argc != 2)
-	{
-		ft_putendl("usage: ./fillit filename");
-		return (0);
-	}
-	if (!(box = read_file(argv[1])) || !(fillit(box, &map, 0, 1)))
-	{
-		ft_putendl("error");
-		mega_free(box, &map);
-		return (0);
-	}
 	i = 0;
-	while (i < map.l_map)
-		ft_putendl(map.board[i++]);
-	mega_free(box, &map);
-	return (0);
+	while (i < box->nb_tetro)
+	{
+		if (!box->tetro_box[i]->brothers)
+		{
+			//malloc list
+		}
+		else
+		{
+
+		}
+	}
 }
