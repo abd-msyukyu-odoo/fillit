@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:42:09 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/06 13:09:44 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/07 13:21:28 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	fill_gap(MAP *map, int x, int y)
 {
-	int		dead_size;
+	int	dead_size;
 
 	map->board[y][x] = ':';
 	dead_size = 1;
@@ -29,21 +29,20 @@ static int	fill_gap(MAP *map, int x, int y)
 	return (dead_size);
 }
 
-static void	clean_map(MAP *map)
-{
-	COORD			p;
+#include <stdio.h>
 
-	init_coord(&p);
-	while (p.y < map->l_map)
+void		clean_map(MAP *map, COORD point)
+{
+	while (point.y < map->l_map)
 	{
-		p.x = 0;
-		while (p.x < map->l_map)
+		while (point.x < map->l_map)
 		{
-			if (map->board[p.y][p.x] == ':')
-				map->board[p.y][p.x] = '.';
-			++(p.x);
+			if (map->board[point.y][point.x] == ':')
+				map->board[point.y][point.x] = '.';
+			point.x++;
 		}
-		++(p.y);
+		point.x = 0;
+		point.y++;
 	}
 }
 
@@ -60,18 +59,20 @@ void		check_gaps(MAP *map)
 		{
 			if (map->board[p.y][p.x] == '.')
 			{
-				dead_size = fill_gap(map, p.x, p.y);
-				if (dead_size % TETRO_SIZE != 0)
-					map->dead_size += dead_size % TETRO_SIZE;
-				else if (map->start.x == 0 && map->start.y == 0)
+				if ((dead_size = fill_gap(map, p.x, p.y) % 4))
 				{
-					map->start.x = p.x;
-					map->start.y = p.y;
+					map->dead_size += dead_size;
+					if (map->dead_size > map->max_dead_size)
+						return (clean_map(map, p));
 				}
+				else if (!map->start.y && !map->start.x)
+					map->start = p;
+				map->board[p.y][p.x] = '.';
 			}
-			++(p.x);
+			else if (map->board[p.y][p.x] == ':')
+				map->board[p.y][p.x] = '.';
+			p.x++;
 		}
-		++(p.y);
+		p.y++;
 	}
-	clean_map(map);
 }

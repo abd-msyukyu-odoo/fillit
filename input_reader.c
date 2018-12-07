@@ -6,15 +6,19 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/11/15 20:53:44 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/07 14:46:33 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static char		is_valid_char(char c)
+static int		init_tetro_box(BOX *box, int index)
 {
-	return (c == '.' || c == '#');
+	if (!(box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2))))
+		return (0);
+	box->tetro_box[index + 1] = NULL;
+	box->nb_tetro = index + 1;
+	return (1);
 }
 
 static char		check_tetro_read(char *tetro_read)
@@ -35,7 +39,7 @@ static char		check_tetro_read(char *tetro_read)
 			index_line = 0;
 			continue ;
 		}
-		else if (!is_valid_char(tetro_read[i]))
+		else if (tetro_read[i] != '#' && tetro_read[i] != '.')
 			return (0);
 		if (tetro_read[i] == '#' && ++count_hash > TETRO_SIZE)
 			return (0);
@@ -52,10 +56,12 @@ static void		simplify_tetro(TETRO *tetro)
 	tetro->footprint.x -= tetro->origin.x;
 	tetro->footprint.y -= tetro->origin.y;
 	i = -1;
+	tetro->id = 0;
 	while (++i < TETRO_SIZE)
 	{
 		tetro->pattern[i].x -= tetro->origin.x;
 		tetro->pattern[i].y -= tetro->origin.y;
+		tetro->id |= (1 << (TETRO_SIZE * tetro->pattern[i].y)) << tetro->pattern[i].x;
 	}
 	tetro->origin.x = 0;
 	tetro->origin.y = 0;
@@ -74,9 +80,8 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 	simplify_tetro(current);
 	if (!(nread = read(fd, tetro_read, 1)))
 	{
-		box->tetro_box = (TETRO **)malloc(sizeof(TETRO *) * (index + 2));
-		box->tetro_box[index + 1] = NULL;
-		box->nb_tetro = index + 1;
+		if (!init_tetro_box(box, index))
+			return (NULL);
 	}
 	else if ((nread == 1 && tetro_read[0] == '\n') || (box = NULL))
 		box = read_tetro(fd, box, index + 1);

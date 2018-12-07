@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 15:21:07 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/07 14:36:14 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	init_check(CHECK *check)
 	check->index = 0;
 }
 
+#include <stdio.h>
+#include <time.h>
 int		init_map(MAP *map, int *try, BOX *box)
 {
 	int		i;
@@ -48,11 +50,14 @@ int		init_map(MAP *map, int *try, BOX *box)
 	while ((*try && (*try)--) || map->l_map * map->l_map < size)
 		map->l_map += 1;
 	map->max_dead_size = map->l_map * map->l_map - size;
+	//printf("max dead_size %d\n", map->max_dead_size);
+	//clock_t time = clock();
+	//while (time + CLOCKS_PER_SEC * 2 > clock())
+	//	;
 	if (map->board)
 		ft_array_strdel(&map->board);
 	if (!(map->board = (char**)malloc(sizeof(char*) * (map->l_map + 1))))
 		return (-1);
-	map->board[map->l_map] = NULL;
 	while (i < map->l_map || (map->dead_size = 0))
 	{
 		if (!(map->board[i] = (char*)malloc(sizeof(char) * (map->l_map + 1))))
@@ -63,6 +68,7 @@ int		init_map(MAP *map, int *try, BOX *box)
 		ft_memset((void*)map->board[i], '.', map->l_map);
 		map->board[i++][map->l_map] = 0;
 	}
+	map->board[i] = NULL;
 	return (1);
 }
 
@@ -73,11 +79,18 @@ void	mega_free(BOX *box, MAP *map)
 	i = 0;
 	if (box && box->tetro_box)
 	{
-		while (box->tetro_box[i])
+		while (i < box->nb_tetro || (i = 0))
 			free(box->tetro_box[i++]);
 		free(box->tetro_box);
 		free(box);
 	}
-	if (map)
+	//(void)map;
+	if (map && map->board)
+	{
+		//while (i < map->l_map)
+		//	free(map->board[i++]);
+		//free(map->board);
 		ft_array_strdel(&map->board);
+	}
+	//	ft_array_strdel(&map->board);
 }

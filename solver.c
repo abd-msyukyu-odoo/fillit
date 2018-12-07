@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/06 15:28:34 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/07 14:28:18 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,42 +23,41 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 	return (start);
 }
 
+static int		init_check_gaps(MAP *map)
+{
+	map->dead_size = 0;
+	init_coord(&(map->start));
+	check_gaps(map);
+	return (map->dead_size <= map->max_dead_size);
+}
+
 static int		fill_pattern(MAP *map, TETRO *piece, int index, COORD point)
 {
 	int		i;
 
-	i = 0;
+	i = -1;
 	point.x -= piece->footprint.x;
 	point.y -= piece->footprint.y;
-	while (i < TETRO_SIZE || (i = 0))
-		if (map->board[piece->pattern[i].y + point.y]
-				[piece->pattern[i].x + point.x] != '.' || !++i)
+	while (++i < TETRO_SIZE || !(i = -1))
+		if (map->board[piece->pattern[i].y + point.y][piece->pattern[i].x + point.x] != '.')
 			return (0);
-	map->dead_size = 0;
-	init_coord(&(map->start));
-	check_gaps(map);
-	if (map->dead_size > map->max_dead_size)
-		return (0);
-	while (i < TETRO_SIZE)
-	{
+	while (++i < TETRO_SIZE)
 		map->board[piece->pattern[i].y + point.y]
-		[piece->pattern[i].x + point.x] = 'A' + index;
-		i++;
-	}
+			[piece->pattern[i].x + point.x] = 'A' + index;
 	return (1);
 }
 
 static int		erase_pattern(char **board, TETRO piece, COORD point)
 {
-	int index;
+	int i;
 
-	index = TETRO_SIZE;
+	i = -1;
 	point.x -= piece.footprint.x;
 	point.y -= piece.footprint.y;
-	while (--index > -1)
-		board[piece.pattern[index].y + point.y]
-			[piece.pattern[index].x + point.x] = '.';
-	return (index);
+	while (++i < TETRO_SIZE)
+		board[piece.pattern[i].y + point.y]
+			[piece.pattern[i].x + point.x] = '.';
+	return (1);
 }
 
 static int		fillit(BOX *box, MAP *map, int index, int try)
@@ -76,14 +75,15 @@ static int		fillit(BOX *box, MAP *map, int index, int try)
 		{
 			if (fill_pattern(map, box->tetro_box[index], index, point))
 			{
-				if (fillit(box, map, index + 1, 0))
-					return (1);
+				if (init_check_gaps(map))
+					if (fillit(box, map, index + 1, 0))
+						return (1);
 				erase_pattern(map->board, *box->tetro_box[index], point);
 			}
-			point.x += 1;
+			point.x++;
 		}
 		point.x = box->tetro_box[index]->footprint.x;
-		point.y += 1;
+		point.y++;
 	}
 	return ((!index) ? fillit(box, map, 0, 1) : 0);
 }
