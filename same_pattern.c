@@ -12,21 +12,20 @@
 
 #include "fillit.h"
 
-void			list_brothers(BOX *box)
+int				list_brothers(BOX *box)
 {
 	int		i;
-	TETRO	*current;
+	int		j;
 
-	i = 0;
-	while (i < box->nb_tetro)
+	i = -1;
+	while (++i < box->nb_tetro)
 	{
-		if (!box->tetro_box[i]->brothers)
-		{
-			//malloc list
-		}
-		else
-		{
-
-		}
+		j = -1;
+		while (++j < i)
+			if (box->tetro_box[i]->id == box->tetro_box[j]->id)
+				box->tetro_box[i]->brothers = box->tetro_box[j]->brothers;
+		if (j == i && !(box->tetro_box[i]->brothers = search_brothers(box, i)))
+			return (0);
 	}
+	return (1);
 }
