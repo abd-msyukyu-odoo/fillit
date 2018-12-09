@@ -6,19 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 13:56:09 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 13:59:14 by rhunders         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   flood_fill.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/27 18:40:47 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 13:56:07 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/09 04:55:54 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +33,8 @@ static void	flooder(char **tetro, TETRO *piece, int x, int y)
 
 	i = -1;
 	inc = 1;
+	piece->id = 0;
+	piece->start_sameid = NULL;
 	while (++i <= 1)
 	{
 		pos.y = y - inc;
@@ -62,7 +52,7 @@ static void	flooder(char **tetro, TETRO *piece, int x, int y)
 		inc = -1;
 	}
 }
-
+#include <stdio.h>
 static int	check_tetro(char **tetro, TETRO *piece)
 {
 	CHECK index;
@@ -82,6 +72,7 @@ static int	check_tetro(char **tetro, TETRO *piece)
 			{
 				piece->pattern[index.index].x = index.x;
 				piece->pattern[index.index].y = index.y;
+				piece->id |= (1 << (index.y * TETRO_SIZE)) << index.x;
 				index.index += 1;
 			}
 			index.x += 1;
@@ -89,6 +80,7 @@ static int	check_tetro(char **tetro, TETRO *piece)
 		index.y += 1;
 	}
 	ft_array_strdel(&tetro);
+	//printf ("id -> %d\n", piece->id);
 	return (1);
 }
 

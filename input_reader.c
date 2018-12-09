@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 14:46:33 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/09 03:31:17 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,10 @@ static void		simplify_tetro(TETRO *tetro)
 	tetro->footprint.x -= tetro->origin.x;
 	tetro->footprint.y -= tetro->origin.y;
 	i = -1;
-	tetro->id = 0;
 	while (++i < TETRO_SIZE)
 	{
 		tetro->pattern[i].x -= tetro->origin.x;
 		tetro->pattern[i].y -= tetro->origin.y;
-		tetro->id |= (1 << (TETRO_SIZE * tetro->pattern[i].y)) << tetro->pattern[i].x;
 	}
 	tetro->origin.x = 0;
 	tetro->origin.y = 0;
@@ -84,20 +82,18 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 			return (NULL);
 	}
 	else if ((nread == 1 && tetro_read[0] == '\n') || (box = NULL))
-		box = read_tetro(fd, box, index + 1);
-	if (!box)
-	{
-		free(current);
-		return (NULL);
-	}
+		if (!(box = read_tetro(fd, box, index + 1)))
+		{
+			free(current);
+			return (NULL);
+		}
 	box->tetro_box[index] = current;
 	return (box);
 }
-
+#include <stdio.h>
 BOX				*read_file(char *file)
 {
 	BOX			*box;
-	BOX			*tmp;
 	int			fd;
 
 	box = (BOX*)malloc(sizeof(BOX));
@@ -108,11 +104,14 @@ BOX				*read_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	if (!(tmp = read_tetro(fd, box, 0)))
+	if (!(read_tetro(fd, box, 0)))
 	{
 		free(box);
 		return (NULL);
 	}
+	if (!check_id(box, 0, -1, 0))
+		return (NULL);
+	printf("fini\n");
 	close(fd);
 	return (box);
 }

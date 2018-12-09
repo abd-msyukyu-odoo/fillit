@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 15:21:24 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/09 04:36:26 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ typedef struct			s_tetromino
 	COORD				pattern[TETRO_SIZE];
 	int					id;
 	int					placed;
+/*	int					*index_sameid;
+	int					nb_sameid;
+	int					last_sameid;*/
+	COORD				*start_sameid;
 }						t_tetromino;
 
 typedef struct			s_map
@@ -43,6 +47,9 @@ typedef struct			s_map
 	char				**board;
 	int					l_map;
 	COORD				start;
+	COORD				start_next;
+	int					max_clean;
+	int					max_cleanx;
 	int					dead_size;
 	int					max_dead_size;
 }						t_map;
@@ -68,5 +75,7 @@ BOX						*read_file(char *file);
 int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
 void					mega_free(BOX *box, MAP *map);
+int						check_id(BOX *box, int index, int i, int count);
+COORD					ft_biggest_point(COORD point1, COORD point2);
 
 #endif

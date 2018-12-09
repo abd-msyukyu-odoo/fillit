@@ -6,17 +6,18 @@
 #    By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/04 12:40:14 by dabeloos          #+#    #+#              #
-#    Updated: 2018/12/07 14:49:31 by rhunders         ###   ########.fr        #
+#    Updated: 2018/12/09 05:34:26 by rhunders         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= fillit
 
-C_FILES		= flood_fill.c \
-			  init_struct.c \
-			  input_reader.c \
-			  solver.c \
-			  closed_gap.c
+C_FILES		=	flood_fill.c \
+				init_struct.c \
+				input_reader.c \
+				solver.c \
+				closed_gap.c \
+				id.c
 
 O_FILES		= $(C_FILES:.c=.o)
 
@@ -25,7 +26,7 @@ FLAGS		= -c -Wall -Wextra -Werror
 $(NAME):
 			make -C libft/
 			gcc $(FLAGS) $(C_FILES) -I./libft/
-			gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
+			gcc -o $(NAME) $(O_FILES) -fsanitize=address -L./libft/ -lft
 
 all:		$(NAME)
 
