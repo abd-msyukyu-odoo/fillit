@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 18:20:32 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 13:43:17 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct			s_tetromino
 	COORD				origin;
 	COORD				footprint;
 	COORD				pattern[TETRO_SIZE];
-	TETRO				*previous;
+	struct s_tetromino	*previous;
 	int					id;
 }						t_tetromino;
 
@@ -69,6 +69,6 @@ int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
 void					mega_free(BOX *box, MAP *map);
 int						fillit(BOX *box, MAP *map, int index, int try);
-void					link_brothers(BOX, *box);
+void					link_brothers(BOX *box);
 
 #endif

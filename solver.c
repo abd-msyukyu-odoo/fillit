@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 17:31:16 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 13:43:08 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 	COORD	start;
 
 	if (piece->previous)
-	{
-		start.x = piece->previous.origin.x + 1;
-		start.y = piece->previous.origin.y;
-	}
+		start = piece->previous->origin;
 	else
 	{
 		start.x = (map->start.x > piece->footprint.x) ? map->start.x :

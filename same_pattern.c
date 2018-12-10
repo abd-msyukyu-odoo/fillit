@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 18:15:52 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 18:22:49 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 13:42:38 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void				link_brothers(BOX *box)
 		while (--j >= 0)
 			if (box->tetro_box[i]->id == box->tetro_box[j]->id)
 			{
-				box->tetro_box[j]->previous = box->tetro_box[i];
+				box->tetro_box[i]->previous = box->tetro_box[j];
 				break ;
 			}
 	}
