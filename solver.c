@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/10 17:00:54 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 18:20:03 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 		if (map->start.y < piece->previous->origin.y ||
 			(map->start.y == piece->previous->origin.y &&
 			map->start.x < piece->previous->origin.x))
-	 		return (piece->previous->origin);
+			return (piece->previous->origin);
 		return (map->start);
 	}
 	else
