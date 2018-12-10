@@ -6,7 +6,7 @@
 #    By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/04 12:40:14 by dabeloos          #+#    #+#              #
-#    Updated: 2018/12/09 05:34:26 by rhunders         ###   ########.fr        #
+#    Updated: 2018/12/10 00:05:59 by rhunders         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS		= -c -Wall -Wextra -Werror
 $(NAME):
 			make -C libft/
 			gcc $(FLAGS) $(C_FILES) -I./libft/
-			gcc -o $(NAME) $(O_FILES) -fsanitize=address -L./libft/ -lft
+			gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
 
 all:		$(NAME)
 

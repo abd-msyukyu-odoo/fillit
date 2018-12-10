@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/09 05:48:38 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:31:16 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ static int		init_check_gaps(MAP *map)
 	map->dead_size = 0;
 	map->start.x = 0;
 	map->start.y = 0;
-//	map->max_clean = 0;
-//	map->max_cleanx = 0;
-	//init_coord(&map->max_clean);
+	map->max_clean = 0;
 	check_gaps(map);
 	return (map->dead_size <= map->max_dead_size);
 }
@@ -70,12 +68,15 @@ static int		erase_pattern(char **board, TETRO *piece, COORD point)
 static int		fillit(BOX *box, MAP *map, int index, int try)
 {
 	COORD			point;
+	COORD			save;
 
 	if (index == box->nb_tetro)
 		return (1);
 	if (try && init_map(map, &try, box) == -1)
 		return (0);
 	point = get_start_coord(map, box->tetro_box[index]);
+	if (box->tetro_box[index]->start_sameid)
+		save = *box->tetro_box[index]->start_sameid;
 	while (point.y < map->l_map)
 	{
 		while (point.x < map->l_map)
@@ -89,7 +90,6 @@ static int		fillit(BOX *box, MAP *map, int index, int try)
 						*box->tetro_box[index]->start_sameid = point;
 						if (fillit(box, map, index + 1, 0))
 							return (1);
-						*box->tetro_box[index]->start_sameid = box->tetro_box[index]->footprint;
 					}
 					else if (fillit(box, map, index + 1, 0))
 						return (1);
@@ -102,7 +102,7 @@ static int		fillit(BOX *box, MAP *map, int index, int try)
 		point.y++;
 	}
 	if (box->tetro_box[index]->start_sameid)
-		*box->tetro_box[index]->start_sameid = box->tetro_box[index]->footprint;
+		*box->tetro_box[index]->start_sameid = save;
 	return ((!index) ? fillit(box, map, 0, 1) : 0);
 }
 
@@ -124,14 +124,14 @@ int				main(int argc, char **argv)
 		ft_putendl("usage: ./fillit filename");
 		return (0);
 	}
-	clock_t time = clock();
+//	clock_t time = clock();
 	if (!(box = read_file(argv[1]))/* || !(fillit(box, &map, 0, 1))*/)
 	{
 		ft_putendl("error");
 		mega_free(box, &map);
 		return (0);
 	}
-	printf ("duree detection de piece -> %.8lf\n", (double)(clock() - time) / (double)CLOCKS_PER_SEC);
+//	printf ("duree detection de piece -> %.8lf\n", (double)(clock() - time) / (double)CLOCKS_PER_SEC);
 	if (!(fillit(box, &map, 0, 1)))
 		return (write(1, "resolve error\n", 14));
 	while (i < map.l_map)

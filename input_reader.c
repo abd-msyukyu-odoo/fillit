@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 15:25:13 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/09 03:31:17 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/09 18:28:44 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ static BOX		*read_tetro(int fd, BOX *box, int index)
 	box->tetro_box[index] = current;
 	return (box);
 }
+
 #include <stdio.h>
+
 BOX				*read_file(char *file)
 {
 	BOX			*box;
@@ -111,7 +113,6 @@ BOX				*read_file(char *file)
 	}
 	if (!check_id(box, 0, -1, 0))
 		return (NULL);
-	printf("fini\n");
 	close(fd);
 	return (box);
 }
