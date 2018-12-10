@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/10 16:52:27 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:00:54 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 static int		init_check_gaps(MAP *map)
 {
 	map->dead_size = 0;
+	map->maxy_clean = 0;
 	init_coord(&(map->start));
 	check_gaps(map);
 	return (map->dead_size <= map->max_dead_size);

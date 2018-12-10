@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:42:09 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/07 17:09:15 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 17:08:54 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ static int	fill_gap(MAP *map, int x, int y)
 	if (y - 1 >= 0 && map->board[y - 1][x] == '.')
 		dead_size += fill_gap(map, x, y - 1);
 	if (y + 1 < map->l_map && map->board[y + 1][x] == '.')
+	{
+		if (y + 1 > map->maxy_clean)
+			map->maxy_clean = y + 1;
 		dead_size += fill_gap(map, x, y + 1);
+	}
 	if (x - 1 >= 0 && map->board[y][x - 1] == '.')
 		dead_size += fill_gap(map, x - 1, y);
 	if (x + 1 < map->l_map && map->board[y][x + 1] == '.')
@@ -31,7 +35,7 @@ static int	fill_gap(MAP *map, int x, int y)
 
 static void	clean_map(MAP *map, COORD p)
 {
-	while (p.y < map->l_map)
+	while (p.y <= map->maxy_clean)
 	{
 		while (p.x < map->l_map)
 		{
@@ -57,13 +61,13 @@ void		check_gaps(MAP *map)
 		{
 			if (map->board[p.y][p.x] == '.')
 			{
-				if ((dead_size = fill_gap(map, p.x, p.y) % TETRO_SIZE))
-				{
-					map->dead_size += dead_size;
-					if (map->dead_size > map->max_dead_size)
-						return (clean_map(map, p));
-				}
-				else if (!map->start.y && !map->start.x)
+				if (p.y > map->maxy_clean)
+					map->maxy_clean = p.y;
+				dead_size = fill_gap(map, p.x, p.y);
+				map->dead_size += dead_size % TETRO_SIZE;
+				if (map->dead_size > map->max_dead_size)
+					return (clean_map(map, p));
+				if (dead_size >= 4 && !map->start.y && !map->start.x)
 					map->start = p;
 				map->board[p.y][p.x] = '.';
 			}

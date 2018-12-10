@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/10 13:43:17 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:57:56 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct			s_map
 	COORD				start;
 	int					dead_size;
 	int					max_dead_size;
+	int					maxy_clean;
 }						t_map;
 
 typedef struct			s_check_input
