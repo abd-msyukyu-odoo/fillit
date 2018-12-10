@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/10 14:32:42 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/10 16:52:27 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,22 @@
 
 static COORD	get_start_coord(MAP *map, TETRO *piece)
 {
-	COORD	start;
-
 	if (piece->previous)
-		start = piece->previous->origin;
+	{
+		if (map->start.y < piece->previous->origin.y ||
+			(map->start.y == piece->previous->origin.y &&
+			map->start.x < piece->previous->origin.x))
+	 		return (piece->previous->origin);
+		return (map->start);
+	}
 	else
 	{
-		start.x = (map->start.x > piece->footprint.x) ? map->start.x :
-			piece->footprint.x;
-		start.y = (map->start.y > piece->footprint.y) ? map->start.y :
-			piece->footprint.y;
+		if (map->start.y < piece->footprint.y ||
+			(map->start.y == piece->footprint.y &&
+			map->start.x < piece->footprint.x))
+			return (piece->footprint);
+		return (map->start);
 	}
-	return (start);
 }
 
 static int		init_check_gaps(MAP *map)
