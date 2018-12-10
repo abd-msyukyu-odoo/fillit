@@ -23,6 +23,9 @@ void				link_brothers(BOX *box)
 		j = i;
 		while (--j >= 0)
 			if (box->tetro_box[i]->id == box->tetro_box[j]->id)
+			{
 				box->tetro_box[j]->previous = box->tetro_box[i];
+				break ;
+			}
 	}
 }
