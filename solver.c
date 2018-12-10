@@ -15,21 +15,13 @@
 static COORD	get_start_coord(MAP *map, TETRO *piece)
 {
 	if (piece->previous)
-	{
 		if (map->start.y < piece->previous->origin.y ||
 			(map->start.y == piece->previous->origin.y &&
 			map->start.x < piece->previous->origin.x))
 			return (piece->previous->origin);
-		return (map->start);
-	}
-	else
-	{
-		if (map->start.y < piece->footprint.y ||
-			(map->start.y == piece->footprint.y &&
-			map->start.x < piece->footprint.x))
-			return (piece->footprint);
-		return (map->start);
-	}
+	map->start.x += piece->footprint.x;
+	map->start.y += piece->footprint.y;
+	return (map->start);	
 }
 
 static int		init_check_gaps(MAP *map)
