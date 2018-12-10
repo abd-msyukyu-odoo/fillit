@@ -16,10 +16,18 @@ static COORD	get_start_coord(MAP *map, TETRO *piece)
 {
 	COORD	start;
 
-	start.x = (map->start.x > piece->footprint.x) ? map->start.x :
-		piece->footprint.x;
-	start.y = (map->start.y > piece->footprint.y) ? map->start.y :
-		piece->footprint.y;
+	if (piece->previous)
+	{
+		start.x = piece->previous.origin.x + 1;
+		start.y = piece->previous.origin.y;
+	}
+	else
+	{
+		start.x = (map->start.x > piece->footprint.x) ? map->start.x :
+			piece->footprint.x;
+		start.y = (map->start.y > piece->footprint.y) ? map->start.y :
+			piece->footprint.y;
+	}
 	return (start);
 }
 
@@ -36,14 +44,13 @@ static int		fill_pattern(MAP *map, TETRO *pc, int index, COORD p)
 	int		i;
 
 	i = -1;
+	pc->origin = p;
 	p.x -= pc->footprint.x;
 	p.y -= pc->footprint.y;
 	while (++i < TETRO_SIZE)
 		if (map->board[pc->pattern[i].y + p.y][pc->pattern[i].x + p.x] != '.')
 			return (0);
 	i = -1;
-	pc->origin = p;
-	pc->placed = 1;
 	while (++i < TETRO_SIZE)
 		map->board[pc->pattern[i].y + p.y]
 			[pc->pattern[i].x + p.x] = 'A' + index;
@@ -57,7 +64,6 @@ static int		erase_pattern(char **board, TETRO *piece, COORD point)
 	i = -1;
 	point.x -= piece->footprint.x;
 	point.y -= piece->footprint.y;
-	piece->placed = 0;
 	while (++i < TETRO_SIZE)
 		board[piece->pattern[i].y + point.y]
 			[piece->pattern[i].x + point.x] = '.';

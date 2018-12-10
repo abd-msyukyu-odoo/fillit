@@ -12,20 +12,17 @@
 
 #include "fillit.h"
 
-int				list_brothers(BOX *box)
+void				link_brothers(BOX *box)
 {
 	int		i;
 	int		j;
 
-	i = -1;
-	while (++i < box->nb_tetro)
+	i = box->nb_tetro;
+	while (--i >= 0)
 	{
-		j = -1;
-		while (++j < i)
+		j = i;
+		while (--j >= 0)
 			if (box->tetro_box[i]->id == box->tetro_box[j]->id)
-				box->tetro_box[i]->brothers = box->tetro_box[j]->brothers;
-		if (j == i && !(box->tetro_box[i]->brothers = search_brothers(box, i)))
-			return (0);
+				box->tetro_box[j]->previous = box->tetro_box[i];
 	}
-	return (1);
 }

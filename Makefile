@@ -17,7 +17,8 @@ C_FILES		= flood_fill.c \
 			  input_reader.c \
 			  solver.c \
 			  closed_gap.c \
-			  main.c
+			  main.c \
+			  same_pattern.c
 
 O_FILES		= $(C_FILES:.c=.o)
 

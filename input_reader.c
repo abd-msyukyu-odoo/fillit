@@ -115,5 +115,6 @@ BOX				*read_file(char *file)
 		return (NULL);
 	}
 	close(fd);
+	link_brothers(box);
 	return (box);
 }

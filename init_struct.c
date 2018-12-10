@@ -19,7 +19,7 @@ void	init_tetro(TETRO *piece)
 	init_coord(&piece->origin);
 	init_coord(&piece->footprint);
 	piece->id = 0;
-	piece->placed = 0;
+	piece->previous = NULL;
 }
 
 void	init_coord(COORD *point)

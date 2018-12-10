@@ -34,9 +34,8 @@ typedef struct			s_tetromino
 	COORD				origin;
 	COORD				footprint;
 	COORD				pattern[TETRO_SIZE];
-	TETRO				**brothers;
+	TETRO				*previous;
 	int					id;
-	int					placed;
 }						t_tetromino;
 
 typedef struct			s_map
@@ -70,5 +69,6 @@ int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
 void					mega_free(BOX *box, MAP *map);
 int						fillit(BOX *box, MAP *map, int index, int try);
+void					link_brothers(BOX, *box);
 
 #endif
