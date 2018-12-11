@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:57:12 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/10 18:20:03 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/11 16:59:56 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 static COORD	get_start_coord(MAP *map, TETRO *piece)
 {
+	COORD start;
+
 	if (piece->previous)
+		return (piece->previous->origin);
+	if (map->max_dead_size < 8)
 	{
-		if (map->start.y < piece->previous->origin.y ||
-			(map->start.y == piece->previous->origin.y &&
-			map->start.x < piece->previous->origin.x))
-			return (piece->previous->origin);
+		start.x = map->start.x + piece->footprint.x -
+			((map->start.x) ? (1) : (0));
+		start.y = map->start.y + piece->footprint.y +
+			((start.x >= map->l_map) ? (1) : (0));
+		if (start.x >= map->l_map)
+			start.x = piece->footprint.x;
 		return (map->start);
 	}
-	else
-	{
-		if (map->start.y < piece->footprint.y ||
-			(map->start.y == piece->footprint.y &&
-			map->start.x < piece->footprint.x))
-			return (piece->footprint);
-		return (map->start);
-	}
+	return (piece->footprint);
 }
 
 static int		init_check_gaps(MAP *map)
 {
 	map->dead_size = 0;
 	map->maxy_clean = 0;
+	map->flag = 0;
 	init_coord(&(map->start));
 	check_gaps(map);
 	return (map->dead_size <= map->max_dead_size);
@@ -59,7 +59,7 @@ static int		fill_pattern(MAP *map, TETRO *pc, int index, COORD p)
 	return (1);
 }
 
-static int		erase_pattern(char **board, TETRO *piece, COORD point)
+static int		erase_pattern(char board[17][17], TETRO *piece, COORD point)
 {
 	int i;
 
@@ -87,7 +87,7 @@ int				fillit(BOX *box, MAP *map, int index, int try)
 		{
 			if (fill_pattern(map, box->tetro_box[index], index, point))
 			{
-				if (init_check_gaps(map))
+				if (map->flag_gaps || init_check_gaps(map))
 					if (fillit(box, map, index + 1, 0))
 						return (1);
 				erase_pattern(map->board, box->tetro_box[index], point);

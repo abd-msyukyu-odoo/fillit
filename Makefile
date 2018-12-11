@@ -6,7 +6,7 @@
 #    By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/10/04 12:40:14 by dabeloos          #+#    #+#              #
-#    Updated: 2018/12/10 18:04:47 by rhunders         ###   ########.fr        #
+#    Updated: 2018/12/11 17:00:46 by rhunders         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS		= -c -Wall -Wextra -Werror
 
 $(NAME):
 			make -C libft/
-			gcc $(FLAGS) $(C_FILES) -O3 -I./libft/
+			gcc $(FLAGS) $(C_FILES) -I./libft/
 			gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
 
 all:		$(NAME)

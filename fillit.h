@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/10 16:57:56 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/11 16:46:58 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ typedef struct			s_tetromino
 
 typedef struct			s_map
 {
-	char				**board;
+	char				board[17][17];
 	int					l_map;
 	COORD				start;
+	int					flag;
 	int					dead_size;
 	int					max_dead_size;
+	int					flag_gaps;
 	int					maxy_clean;
 }						t_map;
 
@@ -68,7 +70,7 @@ TETRO					*flood_fill(char **tetro_in);
 BOX						*read_file(char *file);
 int						init_map(MAP *map, int *try, BOX *box);
 void					check_gaps(MAP *map);
-void					mega_free(BOX *box, MAP *map);
+void					mega_free(BOX *box);
 int						fillit(BOX *box, MAP *map, int index, int try);
 void					link_brothers(BOX *box);
 

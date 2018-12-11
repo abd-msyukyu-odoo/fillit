@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 17:28:08 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/10 18:19:44 by rhunders         ###   ########.fr       */
+/*   Updated: 2018/12/11 16:29:25 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		main(int argc, char **argv)
 	MAP			map;
 	t_tetro_box	*box;
 
-	map.board = NULL;
 	map.l_map = 0;
 	if (argc != 2)
 	{
@@ -28,12 +27,12 @@ int		main(int argc, char **argv)
 	if (!(box = read_file(argv[1])) || !(fillit(box, &map, 0, 1)))
 	{
 		ft_putendl("error");
-		mega_free(box, &map);
+		mega_free(box);
 		return (0);
 	}
 	i = 0;
 	while (i < map.l_map)
 		ft_putendl(map.board[i++]);
-	mega_free(box, &map);
+	mega_free(box);
 	return (0);
 }

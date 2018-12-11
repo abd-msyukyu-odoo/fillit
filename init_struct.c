@@ -6,7 +6,7 @@
 /*   By: rhunders <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 17:17:48 by rhunders          #+#    #+#             */
-/*   Updated: 2018/12/07 17:07:02 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/11 16:49:51 by rhunders         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,19 @@ int		init_map(MAP *map, int *try, BOX *box)
 	while ((*try && (*try)--) || map->l_map * map->l_map < size)
 		map->l_map += 1;
 	map->max_dead_size = map->l_map * map->l_map - size;
-	if (map->board)
-		ft_array_strdel(&map->board);
-	if (!(map->board = (char**)malloc(sizeof(char*) * (map->l_map + 1))))
-		return (-1);
+	if (map->max_dead_size > (map->l_map * map->l_map) / 5)
+		map->flag_gaps = 1;
+	else
+		map->flag_gaps = 0;
 	while (i < map->l_map || (map->dead_size = 0))
 	{
-		if (!(map->board[i] = (char*)malloc(sizeof(char) * (map->l_map + 1))))
-		{
-			ft_array_strdel(&map->board);
-			return (-1);
-		}
 		ft_memset((void*)map->board[i], '.', map->l_map);
 		map->board[i++][map->l_map] = 0;
 	}
-	map->board[i] = NULL;
 	return (1);
 }
 
-void	mega_free(BOX *box, MAP *map)
+void	mega_free(BOX *box)
 {
 	int i;
 
@@ -80,6 +74,4 @@ void	mega_free(BOX *box, MAP *map)
 		free(box->tetro_box);
 		free(box);
 	}
-	if (map && map->board)
-		ft_array_strdel(&map->board);
 }
