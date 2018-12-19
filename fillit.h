@@ -6,7 +6,7 @@
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 13:39:27 by dabeloos          #+#    #+#             */
-/*   Updated: 2018/12/10 16:57:56 by dabeloos         ###   ########.fr       */
+/*   Updated: 2018/12/19 14:26:36 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct			s_map
 	char				**board;
 	int					l_map;
 	COORD				start;
+	COORD				tmp_start;
+	int					first;
 	int					dead_size;
 	int					max_dead_size;
 	int					maxy_clean;
